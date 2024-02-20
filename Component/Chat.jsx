@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoCall } from "react-icons/io5";
 import { FaVideo } from "react-icons/fa";
 import { IoMdMore } from "react-icons/io";
 import Messages from "./Messages";
 import Input from "./Input";
+import data from "./data/data";
+import dataUser from "./data/data";
 
-export const Chat = () => {
+const inputIcon = [IoCall, FaVideo, IoMdMore];
+
+export const Chat = ({ userId, userInfo }) => {
   const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    const dataUser = data.find((user) => user.id === userId);
+  }, [userId]);
+
+  useEffect(() => {
+    const userMessages = fetchMessagesForUser(userId);
+    setMessages(userMessages);
+  }, [userId]);
 
   const handleSendMessage = (input) => {
     // Create a new message with a timestamp
@@ -17,29 +30,22 @@ export const Chat = () => {
     };
     setMessages([...messages, newMessage]);
   };
+
   return (
     <div className="chat">
       <div className="chatHeader">
         <div className="chatHeaderLeft">
           <div className="chatHeaderInfo">
-            <img
-              src="https://vcdn-vnexpress.vnecdn.net/2021/12/13/elon-musk-2-9936-1639406089.jpg"
-              alt=""
-            />
-            <h4>Elon Musk</h4>
-            <p>Active now</p>
+            <img src={userInfo.img} alt="profile-default" />
+            <h4>{userInfo.name}</h4>
           </div>
         </div>
         <div className="chatHeaderRight">
-          <button>
-            <IoCall />
-          </button>
-          <button>
-            <FaVideo />
-          </button>
-          <button>
-            <IoMdMore />
-          </button>
+          {inputIcon.map((Icon, index) => (
+            <button key={index}>
+              <Icon />
+            </button>
+          ))}
         </div>
       </div>
       <div className="chatBody">
@@ -50,4 +56,9 @@ export const Chat = () => {
       </div>
     </div>
   );
+};
+
+const fetchMessagesForUser = (userId) => {
+  // Placeholder function to fetch or filter messages
+  return []; // Return filtered messages for the user
 };
