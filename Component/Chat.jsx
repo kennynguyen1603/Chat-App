@@ -5,7 +5,6 @@ import { IoMdMore } from "react-icons/io";
 import Messages from "./Messages";
 import Input from "./Input";
 import data from "./data/data";
-import dataUser from "./data/data";
 
 const inputIcon = [IoCall, FaVideo, IoMdMore];
 
@@ -13,7 +12,7 @@ export const Chat = ({ userId, userInfo }) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const dataUser = data.find((user) => user.id === userId);
+    console.log(userInfo);
   }, [userId]);
 
   useEffect(() => {
@@ -30,14 +29,14 @@ export const Chat = ({ userId, userInfo }) => {
     };
     setMessages([...messages, newMessage]);
   };
-
   return (
     <div className="chat">
       <div className="chatHeader">
         <div className="chatHeaderLeft">
           <div className="chatHeaderInfo">
-            <img src={userInfo.img} alt="profile-default" />
-            <h4>{userInfo.name}</h4>
+            <img src={userInfo?.img} alt="profile-default" />
+            <h3>{userInfo?.name}</h3>
+            <p>Last seen at...</p>
           </div>
         </div>
         <div className="chatHeaderRight">
